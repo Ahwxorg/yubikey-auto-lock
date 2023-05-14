@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+STATEFILE=/etc/yubikey-state
+STATE="$(cat $STATEFILE)"
+LOCKSCREEN="betterlockscreen"
+LOCKSCREEN_ARGS="-l"
+LOCKSCREEN_PS="i3lock"
+
+fail() {
+  echo $ERROR
+  notify-send $ERROR
+  exit 1
+}
+
+unlock() {
+  if [[ $(ps aux | grep $LOCKSCREEN_PS | wc -l) -gt 1 ]]; then
+    killall -q $LOCKSCREEN_PS
+  else
+    check
+  fi
+}
+
+check(){
+  if [[ $(cat "$STATEFILE") == "connected" ]]; then
+    unlock
+    echo "Connected"       # Debugging
+    sleep 1
+    check
+  elif [[ $(cat "$STATEFILE") == "disconnected" ]]; then
+    sleep 1
+    check
+  else
+    echo "$STATE"
+    ERROR="STATEFILE check was not succesfull. STATEFILE: '$STATEFILE'. Does $STATEFILE exist?"
+    fail
+  fi
+}
+
+check

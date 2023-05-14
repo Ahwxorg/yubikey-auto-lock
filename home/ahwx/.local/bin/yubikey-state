@@ -5,3 +5,4 @@ if [[ $(lsusb | grep "1050:0407") ]]; then
 else
     echo "disconnected" > /etc/yubikey-state
 fi
+
