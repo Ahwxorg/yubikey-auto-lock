@@ -1,0 +1,1 @@
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0407", ACTION=="remove", RUN+="/home/ahwx/.local/bin/yubikey-state"
