@@ -1,0 +1,1 @@
+ACTION=="add", ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0407", RUN+="/home/ahwx/.local/bin/yubikey-state"
